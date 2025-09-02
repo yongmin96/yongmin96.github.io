@@ -1,0 +1,572 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+      #title {text-align: center; font-family: arial;}
+      #authors {text-align: center; font-style: italic; font-size: 19px; font-family: arial;}
+      #abstract {text-align: center; font-family: arial;}
+      #Audio-Samples {text-align: center; font-family: arial;}
+      #Audio-Samples-detail {text-align: center; font-weight: normal; font-size: 17px; font-family: arial;}
+
+      .container {width: 900px; margin: 30px auto;}
+      .container2 {width: 900px; margin: 30px auto;}
+      .centered {position: relative;display: inline-block; padding: 1em;font-weight: normal;font-size: 17px;font-family: arial;}
+      .sample {text-align: center; font-family: arial;}
+      .container-sample1 {width: 1500px; margin: 5px auto;}
+      .centered-sample1 {position: relative;display: inline-block;padding: 1em;font-weight: normal;font-size: 17px;font-family: arial;}
+      .sample1 {font-style: italic; font-family: arial;}
+      .grey {font-style: italic; font-size: 15px; font-family: arial;}
+    </style>
+  </head>
+
+  <body>
+    <h1 id="title"><br />KES-TTS: A Keyword-Aware, Emotion-Driven, and Speaker-Controllable TTS</h1>
+    <p id="authors">
+      Kyungseok Oh<sup>a</sup>, Rakbeen Song<sup>a</sup>, Chulwon Choi<sup>a</sup>, 
+      Bonhwa Ku<sup>a</sup>, Hanseok Ko<sup>b</sup><sup>*</sup>
+    </p>
+    
+    <p id="affiliations" style="text-align: center; font-size: 0.9em; font-style: italic;">
+      <sup>a</sup>Korea University, Department of Electrical and Computer Engineering<br>
+      <sup>b</sup>Catholic University of America, Department of Electrical Engineering and Computer Science
+    </p>
+    
+
+    <h2 id="abstract"><br /><br />Abstract</h2>
+    <div class="container">
+      <div class="centered">
+Text-to-Speech (TTS) plays a crucial role in advancing human-computer communication, enabling more natural and effective interactions across various applications. A key requirement for achieving human-like TTS is the ability to generate emotionally expressive and speaker-controllable speech while appropriately emphasizing keywords within a sentence. However, conventional TTS models often fail to capture word-level prosodic variations and lack mechanisms for automatically detecting linguistically and acoustically significant words, resulting in monotonous and less expressive speech. To address these challenges, we propose KES-TTS, which achieves keyword-aware, emotion-driven, and speaker-controllable speech synthesis by integrating automatic keyword detection using KeyBERT, CLN-based style injection, and word-level emphasis control. This enables more natural, expressive, and contextually adaptive prosody. KES-TTS is evaluated on the Emotional Speech Dataset (ESD) and demonstrates significant improvements in speech naturalness, emotional expressiveness, and speaker similarity through both objective and subjective evaluations. Ablation studies and keyword alignment analyses further validate the effectiveness of the proposed emphasis control and keyword detection strategies, confirming that KES-TTS effectively addresses the challenges of multi-speaker, multi-emotion expressive TTS.
+      </div>
+    </div>
+
+    <div class="container">
+    
+      <h2 style="text-align: center;">Model Architecture</h2>
+    
+      <img src="Architecture.PNG" alt="Model Figure" style="width: 100%; height: auto;">
+    
+      <div style="font-size: 0.85em; font-style: italic; line-height: 1.6; margin-top: 8px;">
+        (a) illustrates the structure of KES-TTS during the training step, while (b) presents the architecture of the emphasis predictors.
+        The emphasis predictors consist of three predictors with the same structure, each designed to estimate variations in pitch and duration.
+        (c) depicts the structure of the discriminator, and (d) shows the structure of KES-TTS during the inference step.
+        Keyword detection automatically identifies linguistically and acoustically important words from the text input.
+      </div>
+    
+    </div>
+
+<div style="text-align: center;">
+  <h2>Emotional Speech Synthesis</h2>
+
+  <h3 style="font-weight: bold; margin-bottom: 20px;">
+    Emotion: Neutral
+  </h3>
+
+  <!-- Sample 1 라인 -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 20px;">
+  <!-- Sample 1 텍스트 -->
+  <div style="width: 600px; font-weight: bold; white-space: nowrap;">
+    Sample 1: <span style="font-weight: normal;">“Mister share man, I move for a division.”</span>
+  </div>
+
+  <!-- Recording -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Recording</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Neutral/Sample1/Recording.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- Emospeech -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Emospeech</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Neutral/Sample1/Emospeech.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- KES-TTS -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">KES-TTS</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Neutral/Sample1/Ours.wav" type="audio/wav">
+    </audio>
+  </div>
+</div>
+
+<!-- Sample 2 라인 -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px;">
+  <!-- Sample 2 텍스트 -->
+  <div style="width: 600px; font-weight: bold; white-space: nowrap;">
+    Sample 2: <span style="font-weight: normal;">“I thought you meant how old are you?”</span>
+  </div>
+
+  <!-- Recording -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Recording</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Neutral/Sample2/Recording.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- Emospeech -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Emospeech</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Neutral/Sample2/Emospeech.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- KES-TTS -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">KES-TTS</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Neutral/Sample2/Ours.wav" type="audio/wav">
+    </audio>
+  </div>
+</div>
+
+<div style="height: 10px;"></div>
+<h3 style="font-weight: bold; margin-bottom: 20px;">
+    Emotion: Happy
+  </h3>
+
+  <!-- Sample 1 라인 -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 20px;">
+  <!-- Sample 1 텍스트 -->
+  <div style="width: 600px; font-weight: bold; white-space: nowrap;">
+    Sample 1: <span style="font-weight: normal;">“Zero four three a silver shilling is journey.”</span>
+  </div>
+
+  <!-- Recording -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Recording</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Happy/Sample1/Recording.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- Emospeech -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Emospeech</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Happy/Sample1/Emospeech.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- KES-TTS -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">KES-TTS</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Happy/Sample1/Ours.wav" type="audio/wav">
+    </audio>
+  </div>
+</div>
+
+<!-- Sample 2 라인 -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px;">
+  <!-- Sample 2 텍스트 -->
+  <div style="width: 600px; font-weight: bold; white-space: nowrap;">
+    Sample 2: <span style="font-weight: normal;">“A fair jaw cracker dwarf language must be!”</span>
+  </div>
+
+  <!-- Recording -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Recording</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Happy/Sample2/Recording.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- Emospeech -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Emospeech</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Happy/Sample2/Emospeech.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- KES-TTS -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">KES-TTS</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Happy/Sample2/Ours.wav" type="audio/wav">
+    </audio>
+  </div>
+</div>
+
+<div style="height: 10px;"></div>
+<h3 style="font-weight: bold; margin-bottom: 20px;">
+    Emotion: Surprise
+  </h3>
+
+  <!-- Sample 1 라인 -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 20px;">
+  <!-- Sample 1 텍스트 -->
+  <div style="width: 600px; font-weight: bold; white-space: nowrap;">
+    Sample 1: <span style="font-weight: normal;">“The name really is the agedaged man.”</span>
+  </div>
+
+  <!-- Recording -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Recording</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Surprise/Sample1/Recording.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- Emospeech -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Emospeech</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Surprise/Sample1/Emospeech.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- KES-TTS -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">KES-TTS</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Surprise/Sample1/Ours.wav" type="audio/wav">
+    </audio>
+  </div>
+</div>
+
+<!-- Sample 2 라인 -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-top: 10px;">
+  
+  <!-- Sample 2 텍스트 (고정 너비로 정렬 기준 통일) -->
+  <div style="width: 600px; font-weight: bold; white-space: nowrap;">
+    Sample 2: <span style="font-weight: normal;">“She had said, so that one could keep up a conversation?”</span>
+  </div>
+
+  <!-- Recording -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Recording</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Surprise/Sample2/Recording.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- Emospeech -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Emospeech</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Surprise/Sample2/Emospeech.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- KES-TTS -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">KES-TTS</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Surprise/Sample2/Ours.wav" type="audio/wav">
+    </audio>
+  </div>
+</div>
+
+<div style="height: 10px;"></div>
+<h3 style="font-weight: bold; margin-bottom: 20px;">
+    Emotion: Sad
+  </h3>
+
+  <!-- Sample 1 라인 -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 20px;">
+  <!-- Sample 1 텍스트 -->
+  <div style="width: 600px; font-weight: bold; white-space: nowrap;">
+    Sample 1: <span style="font-weight: normal;">“It's me piglit, help help!”</span>
+  </div>
+
+  <!-- Recording -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Recording</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Sad/Sample1/Recording.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- Emospeech -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Emospeech</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Sad/Sample1/Emospeech.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- KES-TTS -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">KES-TTS</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Sad/Sample1/Ours.wav" type="audio/wav">
+    </audio>
+  </div>
+</div>
+
+<!-- Sample 2 라인 -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-top: 10px;">
+  
+  <!-- Sample 2 텍스트 (고정 너비로 정렬 기준 통일) -->
+  <div style="width: 600px; font-weight: bold; white-space: nowrap;">
+    Sample 2: <span style="font-weight: normal;">“I have bunburyed all over goat on two separate occasions.”</span>
+  </div>
+
+  <!-- Recording -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Recording</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Sad/Sample2/Recording.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- Emospeech -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Emospeech</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Sad/Sample2/Emospeech.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- KES-TTS -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">KES-TTS</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Sad/Sample2/Ours.wav" type="audio/wav">
+    </audio>
+  </div>
+</div>
+
+<div style="height: 10px;"></div>
+<h3 style="font-weight: bold; margin-bottom: 20px;">
+    Emotion: Angry
+  </h3>
+
+  <!-- Sample 1 라인 -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 20px;">
+  <!-- Sample 1 텍스트 -->
+  <div style="width: 600px; font-weight: bold; white-space: nowrap;">
+    Sample 1: <span style="font-weight: normal;">“Goat Billy asked the old chinese guy.”</span>
+  </div>
+
+  <!-- Recording -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Recording</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Angry/Sample1/Recording.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- Emospeech -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Emospeech</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Angry/Sample1/Emospeech.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- KES-TTS -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">KES-TTS</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Angry/Sample1/Ours.wav" type="audio/wav">
+    </audio>
+  </div>
+</div>
+
+<!-- Sample 2 라인 -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-top: 10px;">
+  
+  <!-- Sample 2 텍스트 (고정 너비로 정렬 기준 통일) -->
+  <div style="width: 600px; font-weight: bold; white-space: nowrap;">
+    Sample 2: <span style="font-weight: normal;">“Mister share man, I move for a division.”</span>
+  </div>
+
+  <!-- Recording -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Recording</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Angry/Sample2/Recording.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- Emospeech -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">Emospeech</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Angry/Sample2/Emospeech.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- KES-TTS -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">KES-TTS</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/ETTS/Angry/Sample2/Ours.wav" type="audio/wav">
+    </audio>
+  </div>
+</div>
+
+<div style="text-align: center;">
+  <h2>With vs. Without Emphasis</h2>
+  <h3> <span style="color: red;">(Keyword detected by KeyBERT)</span> </h3>
+
+  <div style="height: 10px;"></div>
+<h3 style="font-weight: bold; margin-bottom: 20px;">
+    Emotion: Sad
+  </h3>
+
+  <!-- Sample 1 라인 -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 20px;">
+  <!-- Sample 1 텍스트 -->
+  <div style="width: 600px; font-weight: bold; white-space: nowrap;">
+    Sample 1: <span style="font-weight: normal;">“It's me <span style="color: red;">piglit</span>, <span style="color: red;">help</span> help!”</span>
+  </div>
+
+  <!-- w/o Emphasis -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">w/o Emphasis</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/Emphasis/Sad/Sample1/wo_emphasis.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- w Emphasis -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">w Emphasis</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/Emphasis/Sad/Sample1/emphasis.wav" type="audio/wav">
+    </audio>
+  </div>
+</div>
+
+    <!-- Sample 2 라인 -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 20px;">
+  <!-- Sample 2 텍스트 -->
+  <div style="width: 600px; font-weight: bold; white-space: nowrap;">
+    Sample 2: <span style="font-weight: normal;">“She had <span style="color: red;">said</span>, so that one could keep up a <span style="color: red;">conversation!”</span>
+  </div>
+
+  <!-- w/o Emphasis -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">w/o Emphasis</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/Emphasis/Sad/Sample2/wo_emphasis.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- w Emphasis -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">w Emphasis</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/Emphasis/Sad/Sample2/emphasis.wav" type="audio/wav">
+    </audio>
+  </div>
+</div>
+
+  <div style="height: 10px;"></div>
+<h3 style="font-weight: bold; margin-bottom: 20px;">
+    Emotion: Surprise
+  </h3>
+
+  <!-- Sample 1 라인 -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 20px;">
+  <!-- Sample 1 텍스트 -->
+  <div style="width: 600px; font-weight: bold; white-space: nowrap;">
+    Sample 1: <span style="font-weight: normal;">“<span style="color: red;">Monster</span> made a deep <span style="color: red;">bow.</span>”</span>
+  </div>
+
+  <!-- w/o Emphasis -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">w/o Emphasis</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/Emphasis/Surprise/Sample1/wo_emphasis.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- w Emphasis -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">w Emphasis</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/Emphasis/Surprise/Sample1/emphasis.wav" type="audio/wav">
+    </audio>
+  </div>
+</div>
+
+    <!-- Sample 2 라인 -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 20px;">
+  <!-- Sample 2 텍스트 -->
+  <div style="width: 600px; font-weight: bold; white-space: nowrap;">
+    Sample 2: <span style="font-weight: normal;">“<span style="color: red;">Called</span> out the <span style="color: red;">cloud.</span>”</span>
+  </div>
+
+  <!-- w/o Emphasis -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">w/o Emphasis</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/Emphasis/Surprise/Sample2/wo_emphasis.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- w Emphasis -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">w Emphasis</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/Emphasis/Surprise/Sample2/emphasis.wav" type="audio/wav">
+    </audio>
+  </div>
+</div>
+
+    <div style="height: 10px;"></div>
+<h3 style="font-weight: bold; margin-bottom: 20px;">
+    Emotion: Angry
+  </h3>
+
+  <!-- Sample 1 라인 -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 20px;">
+  <!-- Sample 1 텍스트 -->
+  <div style="width: 600px; font-weight: bold; white-space: nowrap;">
+    Sample 1: <span style="font-weight: normal;">“<span style="color: red;">Goat Billy</span> asked the ld chinese guy.”</span>
+  </div>
+
+  <!-- w/o Emphasis -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">w/o Emphasis</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/Emphasis/Angry/Sample1/wo_emphasis.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- w Emphasis -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">w Emphasis</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/Emphasis/Angry/Sample1/emphasis.wav" type="audio/wav">
+    </audio>
+  </div>
+</div>
+
+    <!-- Sample 2 라인 -->
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 20px;">
+  <!-- Sample 2 텍스트 -->
+  <div style="width: 600px; font-weight: bold; white-space: nowrap;">
+    Sample 2: <span style="font-weight: normal;">“Zero four three a <span style="color: red;">silver shilling</span> is journey.”</span>
+  </div>
+
+  <!-- w/o Emphasis -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">w/o Emphasis</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/Emphasis/Angry/Sample2/wo_emphasis.wav" type="audio/wav">
+    </audio>
+  </div>
+
+  <!-- w Emphasis -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold;">w Emphasis</div>
+    <audio controls style="width: 180px;">
+      <source src="Samples/Emphasis/Angry/Sample2/emphasis.wav" type="audio/wav">
+    </audio>
+  </div>
+</div>
+  
+</div>
+  </body>
+</html>
